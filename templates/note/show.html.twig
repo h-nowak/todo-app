@@ -14,10 +14,12 @@
             <dd>{{ note.priority }}</dd>
             <dt>{{ 'label.status'|trans }}</dt>
             <dd>{{ note.status.label|trans }}</dd>
+            <dt>{{ 'label.category'|trans }}</dt>
+            <dd>{{  note.category.title }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
-            <dd>{{ note.createdAt|date('Y/m/d') }}</dd>
+            <dd>{{ note.createdAt|date('long') }}</dd>
             <dt>{{ 'label.updated_at'|trans }}</dt>
-            <dd>{{ note.updatedAt|date('Y/m/d') }}</dd>
+            <dd>{{ note.updatedAt|date('long') }}</dd>
         </dl>
         <p>
             <a href="{{ url('note_index') }}" title="{{ 'action.back_to_list'|trans }}">

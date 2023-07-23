@@ -20,6 +20,7 @@
                             <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'note.content') }}</th>
                             <th>{{ knp_pagination_sortable(pagination, 'label.priority'|trans, 'note.priority') }}</th>
                             <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'note.createdAt') }}</th>
+                            <th>{{ knp_pagination_sortable(pagination, 'label_category'|trans, 'category.title') }}</th>
                             <th>{{ 'label.actions'|trans }}</th>
                         </tr>
                         </thead>
@@ -28,7 +29,8 @@
                             <tr>
                                 <td>{{ note.content }}</td>
                                 <td>{{ note.priority }}</td>
-                                <td>{{ note.createdAt|date('Y/m/d') }}</td>
+                                <td>{{ note.createdAt|date('long') }}</td>
+                                <td>{{ note.category.title }}</td>
                                 <td>
                                     <a href="{{ url('note_show', {id: note.id}) }}" title="{{ 'action.view'|trans }}">
                                         {{ 'action.view'|trans }}

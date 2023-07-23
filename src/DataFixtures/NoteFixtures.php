@@ -5,14 +5,16 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
 use DateTimeImmutable;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
  * Note fixtures class.
  */
-class NoteFixtures extends AbstractBaseFixtures
+class NoteFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
     /**
      * Possible status.
@@ -30,7 +32,11 @@ class NoteFixtures extends AbstractBaseFixtures
      */
     public function loadData(): void
     {
-        for ($i = 0; $i < 100; ++$i) {
+        if (null === $this->manager || null === $this->faker) {
+            return;
+        }
+
+        $this->createMany(100, 'notes', function (int $i) {
             $note = new Note();
             $note->setContent($this->faker->sentences(1, true));
             $note->setPriority($this->faker->numberBetween(1,5));
@@ -41,9 +47,25 @@ class NoteFixtures extends AbstractBaseFixtures
             $note->setUpdatedAt(
                 DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-100 days', '-1 days'))
             );
-            $this->manager->persist($note);
-        }
+
+            /** @var Category $category */
+            $category = $this->getRandomReference('categories');
+            $note->setCategory($category);
+
+            return $note;
+        });
 
         $this->manager->flush();
+    }
+
+    /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on.
+     *
+     * @return string[] of dependencies
+     */
+    public function getDependencies(): array
+    {
+        return [CategoryFixtures::class];
     }
 }

@@ -68,6 +68,15 @@ class Note
     private NoteStatus|null $status = null;
 
     /**
+     * Category.
+     *
+     * @var Category|null
+     */
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
+
+    /**
      * Getter for id.
      *
      * @return int|null
@@ -185,5 +194,17 @@ class Note
     public function setStatus(?NoteStatus $status): void
     {
         $this->status = $status;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }
