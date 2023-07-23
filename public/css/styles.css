@@ -1,0 +1,9 @@
+/* Navigation */
+.navbar-brand {
+    padding-left: 30px;
+}
+
+/* Main */
+.main {
+    min-height: calc(100dvh - 2 * 56px);
+}

@@ -20,12 +20,12 @@ final class Version20230716193217 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE notes CHANGE status status VARCHAR(20) NOT NULL');
+        $this->addSql('ALTER TABLE note CHANGE status status VARCHAR(20) NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE notes CHANGE status status VARCHAR(15) NOT NULL');
+        $this->addSql('ALTER TABLE note CHANGE status status VARCHAR(15) NOT NULL');
     }
 }

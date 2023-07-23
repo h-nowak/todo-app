@@ -1,6 +1,6 @@
 <?php
 /**
- * Note role.
+ * Note status.
  */
 
 namespace App\Entity\Enum;
@@ -16,7 +16,7 @@ enum NoteStatus: string
 
 
     /**
-     * Get the role label.
+     * Get the status label.
      *
      * @return string Role label
      */
