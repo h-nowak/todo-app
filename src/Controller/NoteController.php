@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
 use App\Service\NoteServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,12 +36,16 @@ class NoteController extends AbstractController
     #[Route(name: 'note_index', methods: 'GET')]
     public function index(Request $request): Response
     {
-        $pagination = $this->noteService->getPaginatedList(
-            $request->query->getInt('page', 1)
-        );
-        dump($pagination);
+        $statusCases = NoteStatus::cases();
 
-        return $this->render('note/index.html.twig', ['pagination' => $pagination]);
+        foreach($statusCases as $status) {
+            $paginations[] = $this->noteService->getPaginatedListByStatus(
+                $request->query->getInt('page', 1),
+                $status,
+            );
+        }
+
+        return $this->render('note/index.html.twig', ['paginations' => $paginations, 'statusCases' => $statusCases]);
     }
 
     /**

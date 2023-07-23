@@ -32,7 +32,7 @@ class NoteFixtures extends AbstractBaseFixtures
     {
         for ($i = 0; $i < 100; ++$i) {
             $note = new Note();
-            $note->setContent($this->faker->sentences(5, true));
+            $note->setContent($this->faker->sentences(1, true));
             $note->setPriority($this->faker->numberBetween(1,5));
             $note->setStatus($this->possibleStatus[$this->faker->numberBetween(0,2)]);
             $note->setCreatedAt(

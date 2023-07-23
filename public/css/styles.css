@@ -7,3 +7,9 @@
 .main {
     min-height: calc(100dvh - 2 * 56px);
 }
+
+/* Table */
+td {
+    height: 200px;
+    vertical-align: middle;
+}
