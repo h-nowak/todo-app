@@ -48,6 +48,29 @@ class TodoListRepository extends ServiceEntityRepository
             ->orderBy('todo_list.updatedAt', 'DESC');
     }
 
+
+    /**
+     * Save entity.
+     *
+     * @param TodoList $todoList TodoList entity
+     */
+    public function save(TodoList $todoList): void
+    {
+        $this->_em->persist($todoList);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param TodoList $todoList TodoList entity
+     */
+    public function delete(TodoList $todoList): void
+    {
+        $this->_em->remove($todoList);
+        $this->_em->flush();
+    }
+
     /**
      * Get or create new query builder.
      *

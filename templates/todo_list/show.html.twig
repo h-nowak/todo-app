@@ -14,6 +14,15 @@
             <dd>{{ todoList.createdAt|date("d.m.Y, H:i") }}</dd>
             <dt>{{ 'label.updated_at'|trans }}</dt>
             <dd>{{ todoList.updatedAt|date("d.m.Y, H:i") }}</dd>
+            <dt>{{ 'label.actions'|trans }}</dt>
+            <dd>
+                <a href="{{ url('todoList_edit', {id: todoList.id}) }}" title="{{ 'action.edit'|trans }}">
+                    {{ 'action.edit'|trans }}
+                </a>
+                •
+                <a href="{{ url('todoList_delete', {id: todoList.id}) }}" title="{{ 'action.delete'|trans }}">
+                    {{ 'action.delete'|trans }}
+                </a></dd>
         </dl>
         <p>
             <a href="{{ url('todoList_index') }}" title="{{ 'action.back_to_list'|trans }}">

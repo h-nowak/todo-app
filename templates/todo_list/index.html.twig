@@ -6,6 +6,9 @@
 
 {% block body %}
     <h1>{{ 'title.todoList_list'|trans }}</h1>
+    <a href="{{ url('todoList_create') }}" title="{{ 'action.create'|trans }}">
+        {{ 'action.create'|trans }}
+    </a>
     <div class="row">
     {% if pagination is defined and pagination|length %}
         <table class="table table-striped">
@@ -26,6 +29,14 @@
                     <td>
                         <a href="{{ url('todoList_show', {id: todoList.id}) }}" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
+                        </a>
+                        •
+                        <a href="{{ url('todoList_edit', {id: todoList.id}) }}" title="{{ 'action.edit'|trans }}">
+                            {{ 'action.edit'|trans }}
+                        </a>
+                        •
+                        <a href="{{ url('todoList_delete', {id: todoList.id}) }}" title="{{ 'action.delete'|trans }}">
+                            {{ 'action.delete'|trans }}
                         </a>
                     </td>
                 </tr>

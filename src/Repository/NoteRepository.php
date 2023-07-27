@@ -7,6 +7,8 @@ use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
 use App\Entity\TodoList;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -80,6 +82,27 @@ class NoteRepository extends ServiceEntityRepository
     }
 
     /**
+     * Count notes by category.
+     *
+     * @param Category $category Category
+     *
+     * @return int Number of notes in category
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByCategory(Category $category): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('note.id'))
+            ->where('note.category = :category')
+            ->setParameter(':category', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
      * Query records by todo-list.
      *
      * @return QueryBuilder Query builder
@@ -90,6 +113,49 @@ class NoteRepository extends ServiceEntityRepository
             ->andWhere('note.todoList = :todoList')
             ->setParameter('todoList', $todoList);
     }
+    /**
+     * Count notes by todo-list.
+     *
+     * @param TodoList $todoList Todo-list
+     *
+     * @return int Number of notes in todo-list
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByTodoList(TodoList $todoList): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('note.id'))
+            ->where('note.todoList = :todoList')
+            ->setParameter('todoList', $todoList)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Save entity.
+     *
+     * @param Note $note Note entity
+     */
+    public function save(Note $note): void
+    {
+        $this->_em->persist($note);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Note $note Note entity
+     */
+    public function delete(Note $note): void
+    {
+        $this->_em->remove($note);
+        $this->_em->flush();
+    }
+
 
     /**
      * Get or create new query builder.

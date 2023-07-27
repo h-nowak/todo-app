@@ -5,13 +5,18 @@
 namespace App\Entity;
 
 use App\Repository\TodoListRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * TodoList class.
  */
 #[ORM\Entity(repositoryClass: TodoListRepository::class)]
 #[ORM\Table(name: 'todo_lists')]
+#[UniqueEntity(fields: ['title'])]
 class TodoList
 {
     /**
@@ -21,7 +26,7 @@ class TodoList
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
     /**
@@ -29,24 +34,31 @@ class TodoList
      *
      * @var string|null
      */
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $title = null;
 
     /**
      * Created at.
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\Type(DateTimeImmutable::class)]
+    #[Gedmo\Timestampable(on: 'create')]
+    private ?DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\Type(DateTimeImmutable::class)]
+    #[Gedmo\Timestampable(on: 'update')]
+    private ?DateTimeImmutable $updatedAt = null;
 
     /**
      * Getter for id.
@@ -81,9 +93,9 @@ class TodoList
     /**
      * Getter for created at.
      *
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -91,9 +103,9 @@ class TodoList
     /**
      * Setter for created at.
      *
-     * @param \DateTimeImmutable|null $createdAt Created at
+     * @param DateTimeImmutable|null $createdAt Created at
      */
-    public function setCreatedAt(?\DateTimeImmutable $createdAt): void
+    public function setCreatedAt(?DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -101,9 +113,9 @@ class TodoList
     /**
      * Getter for updated at.
      *
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -111,9 +123,9 @@ class TodoList
     /**
      * Setter for updated at.
      *
-     * @param \DateTimeImmutable|null $updatedAt Updated at
+     * @param DateTimeImmutable|null $updatedAt Updated at
      */
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
+    public function setUpdatedAt(?DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

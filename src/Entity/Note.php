@@ -7,8 +7,11 @@ namespace App\Entity;
 
 use App\Entity\Enum\NoteStatus;
 use App\Repository\NoteRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Note class.
@@ -33,6 +36,8 @@ class Note
      * @var string|null
      */
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3)]
     private ?string $content = null;
 
     /**
@@ -40,24 +45,31 @@ class Note
      *
      * @var int|null
      */
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
+    #[Assert\Type('integer')]
+    #[Assert\NotBlank]
+    #[Assert\Range(min: 1, max: 5)]
     private ?int $priority = null;
 
     /**
      * Created at.
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\Type(DateTimeImmutable::class)]
+    #[Gedmo\Timestampable(on: 'create')]
+    private ?DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
      *
-     * @var \DateTimeImmutable|null
+     * @var DateTimeImmutable|null
      */
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\Type(DateTimeImmutable::class)]
+    #[Gedmo\Timestampable(on: 'update')]
+    private ?DateTimeImmutable $updatedAt = null;
 
     /**
      * Status.
@@ -74,9 +86,17 @@ class Note
      */
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Category $category = null;
 
+    /**
+     * Todo list.
+     *
+     * @var TodoList|null
+     */
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?TodoList $todoList = null;
 
     /**
@@ -142,9 +162,9 @@ class Note
     /**
      * Getter for created at.
      *
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -152,9 +172,9 @@ class Note
     /**
      * Setter for created at.
      *
-     * @param \DateTimeImmutable|null $createdAt Created at
+     * @param DateTimeImmutable|null $createdAt Created at
      */
-    public function setCreatedAt(?\DateTimeImmutable $createdAt): void
+    public function setCreatedAt(?DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -162,9 +182,9 @@ class Note
     /**
      * Getter for updated at.
      *
-     * @return \DateTimeImmutable|null
+     * @return DateTimeImmutable|null
      */
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -172,9 +192,9 @@ class Note
     /**
      * Setter for updated at.
      *
-     * @param \DateTimeImmutable|null $updatedAt Updated at
+     * @param DateTimeImmutable|null $updatedAt Updated at
      */
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
+    public function setUpdatedAt(?DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
