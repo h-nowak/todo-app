@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
+use App\Entity\TodoList;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,10 +47,12 @@ class NoteRepository extends ServiceEntityRepository
         return $this->getOrCreateQueryBuilder()
             ->select(
                 'partial note.{id, content, createdAt, updatedAt, status, priority}',
-                'partial category.{id, title}'
+                'partial category.{id, title}',
+                'partial todoList.{id, title}',
             )
             ->join('note.category', 'category')
-            ->orderBy('note.updatedAt', 'DESC');
+            ->join('note.todoList', 'todoList')
+            ->orderBy('note.priority', 'DESC');
     }
 
     /**
@@ -61,6 +65,30 @@ class NoteRepository extends ServiceEntityRepository
         return $this->queryAll()
             ->andWhere('note.status = :status')
             ->setParameter('status', $status);
+    }
+
+    /**
+     * Query records by category.
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByCategory(Category $category): QueryBuilder
+    {
+        return $this->queryAll()
+            ->andWhere('note.category = :category')
+            ->setParameter('category', $category);
+    }
+
+    /**
+     * Query records by todo-list.
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByTodoList(TodoList $todoList): QueryBuilder
+    {
+        return $this->queryAll()
+            ->andWhere('note.todoList = :todoList')
+            ->setParameter('todoList', $todoList);
     }
 
     /**

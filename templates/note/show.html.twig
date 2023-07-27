@@ -17,9 +17,9 @@
             <dt>{{ 'label.category'|trans }}</dt>
             <dd>{{  note.category.title }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
-            <dd>{{ note.createdAt|date('long') }}</dd>
+            <dd>{{ note.createdAt|date("d.m.Y, H:i") }}</dd>
             <dt>{{ 'label.updated_at'|trans }}</dt>
-            <dd>{{ note.updatedAt|date('long') }}</dd>
+            <dd>{{ note.updatedAt|date("d.m.Y, H:i") }}</dd>
         </dl>
         <p>
             <a href="{{ url('note_index') }}" title="{{ 'action.back_to_list'|trans }}">

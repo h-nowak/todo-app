@@ -76,6 +76,9 @@ class Note
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
+    #[ORM\ManyToOne]
+    private ?TodoList $todoList = null;
+
     /**
      * Getter for id.
      *
@@ -204,6 +207,18 @@ class Note
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getTodoList(): ?TodoList
+    {
+        return $this->todoList;
+    }
+
+    public function setTodoList(?TodoList $todoList): static
+    {
+        $this->todoList = $todoList;
 
         return $this;
     }

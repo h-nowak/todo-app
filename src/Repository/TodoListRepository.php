@@ -1,21 +1,23 @@
 <?php
-
+/**
+ * TodoList repository.
+ */
 namespace App\Repository;
 
-use App\Entity\Category;
+use App\Entity\TodoList;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Category>
+ * @extends ServiceEntityRepository<TodoList>
  *
- * @method Category|null find($id, $lockMode = null, $lockVersion = null)
- * @method Category|null findOneBy(array $criteria, array $orderBy = null)
- * @method Category[]    findAll()
- * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method TodoList|null find($id, $lockMode = null, $lockVersion = null)
+ * @method TodoList|null findOneBy(array $criteria, array $orderBy = null)
+ * @method TodoList[]    findAll()
+ * @method TodoList[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends ServiceEntityRepository
+class TodoListRepository extends ServiceEntityRepository
 {
     /**
      * Items per page.
@@ -31,7 +33,7 @@ class CategoryRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Category::class);
+        parent::__construct($registry, TodoList::class);
     }
 
     /**
@@ -42,8 +44,8 @@ class CategoryRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->select('partial category.{id, title}')
-            ->orderBy('category.updatedAt', 'DESC');
+            ->select('partial todo_list.{id, title}')
+            ->orderBy('todo_list.updatedAt', 'DESC');
     }
 
     /**
@@ -55,6 +57,6 @@ class CategoryRepository extends ServiceEntityRepository
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
-        return $queryBuilder ?? $this->createQueryBuilder('category');
+        return $queryBuilder ?? $this->createQueryBuilder('todo_list');
     }
 }

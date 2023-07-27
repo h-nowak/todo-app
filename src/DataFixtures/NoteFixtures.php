@@ -8,6 +8,7 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
+use App\Entity\TodoList;
 use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
@@ -52,6 +53,10 @@ class NoteFixtures extends AbstractBaseFixtures implements DependentFixtureInter
             $category = $this->getRandomReference('categories');
             $note->setCategory($category);
 
+            /** @var TodoList $todoList */
+            $todoList = $this->getRandomReference('todoLists');
+            $note->setTodoList($todoList);
+
             return $note;
         });
 
@@ -66,6 +71,6 @@ class NoteFixtures extends AbstractBaseFixtures implements DependentFixtureInter
      */
     public function getDependencies(): array
     {
-        return [CategoryFixtures::class];
+        return [CategoryFixtures::class, TodoListFixtures::class];
     }
 }
