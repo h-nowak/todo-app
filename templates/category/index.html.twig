@@ -11,7 +11,7 @@
     </a>
     <div class="row">
     {% if pagination is defined and pagination|length %}
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
             <thead>
             <tr>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'category.title') }}</th>

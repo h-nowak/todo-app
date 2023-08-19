@@ -23,10 +23,6 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('oldPassword', PasswordType::class, [
-                'required' => true,
-                'label' => 'label.old_password',
-            ])
             ->add('password', PasswordType::class, [
                 'required' => true,
                 'label' => 'label.new_password',

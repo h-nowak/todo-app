@@ -85,6 +85,7 @@ class NoteType extends AbstractType
                 'class' => NoteStatus::class
             ]);
         $builder->add('priority', RangeType::class, [
+            'label' => 'label.priority',
             'attr' => [
                 'min' => 1,
                 'max' => 5
