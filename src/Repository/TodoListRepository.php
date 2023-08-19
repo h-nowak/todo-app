@@ -5,6 +5,7 @@
 namespace App\Repository;
 
 use App\Entity\TodoList;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,10 +45,26 @@ class TodoListRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->select('partial todo_list.{id, title}')
+            ->select('partial todo_list.{id, title, author}')
             ->orderBy('todo_list.updatedAt', 'DESC');
     }
 
+    /**
+     * Query tasks by author.
+     *
+     * @param User $user User entity
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByAuthor(User $user): QueryBuilder
+    {
+        $queryBuilder = $this->queryAll();
+
+        $queryBuilder->andWhere('todo_list.author = :author')
+            ->setParameter('author', $user);
+
+        return $queryBuilder;
+    }
 
     /**
      * Save entity.

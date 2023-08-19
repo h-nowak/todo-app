@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
+use App\Entity\User;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -26,11 +27,12 @@ interface NoteServiceInterface
     /**
      * Get paginated list by status.
      *
-     * @param int $page Page number
+     * @param int  $page   Page number
+     * @param User $author User
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedListByStatus(int $page, NoteStatus $status): PaginationInterface;
+    public function getPaginatedListByStatus(int $page, NoteStatus $status, User $author): PaginationInterface;
 
     /**
      * Save entity.

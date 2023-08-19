@@ -6,12 +6,14 @@
 namespace App\DataFixtures;
 
 use App\Entity\TodoList;
+use App\Entity\User;
 use DateTimeImmutable;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
  * Class TodoListFixtures.
  */
-class TodoListFixtures extends AbstractBaseFixtures
+class TodoListFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
     /**
      * Load data.
@@ -32,9 +34,23 @@ class TodoListFixtures extends AbstractBaseFixtures
                 )
             );
 
+            /** @var User $author */
+            $author = $this->getRandomReference('admins');
+            $todoList->setAuthor($author);
+
             return $todoList;
         });
 
         $this->manager->flush();
+    }
+
+    /**
+     * Get dependencies.
+     *
+     * @return string[]
+     */
+    public function getDependencies(): array
+    {
+        return [UserFixtures::class];
     }
 }

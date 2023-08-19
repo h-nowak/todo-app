@@ -6,6 +6,7 @@
 namespace App\Service;
 
 use App\Entity\TodoList;
+use App\Entity\User;
 use App\Repository\NoteRepository;
 use App\Repository\TodoListRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -51,14 +52,15 @@ class TodoListService implements TodoListServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int  $page   Page number
+     * @param User $author Author
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, User $author): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->todoListRepository->queryAll(),
+            $this->todoListRepository->queryByAuthor($author),
             $page,
             TodoListRepository::PAGINATOR_ITEMS_PER_PAGE
         );

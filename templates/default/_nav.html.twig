@@ -20,7 +20,7 @@
                 </li>
             </ul>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <div>{{ app.user.email }}&nbsp;</div>
+                <div><a href="{{ url('user_edit') }}" title="{{ 'nav.edit_user'|trans }}">{{ app.user.email }}</a>&nbsp;</div>
                 <div>
                     <a href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
                 </div>

@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\TodoList;
+use App\Entity\User;
 use App\Form\Type\TodoListType;
 use App\Service\TodoListServiceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,8 +50,12 @@ class TodoListController extends AbstractController
     #[Route(name: 'todoList_index', methods: 'GET')]
     public function index(Request $request): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+
         $pagination = $this->todoListService->getPaginatedList(
-            $request->query->getInt('page', 1)
+            $request->query->getInt('page', 1),
+            $user,
         );
 
         return $this->render('todo_list/index.html.twig', ['pagination' => $pagination]);
@@ -70,6 +76,7 @@ class TodoListController extends AbstractController
     public function create(Request $request): Response
     {
         $todoList = new TodoList();
+        $todoList->setAuthor($this->getUser());
         $form = $this->createForm(TodoListType::class, $todoList);
         $form->handleRequest($request);
 
@@ -98,6 +105,7 @@ class TodoListController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'todoList_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('EDIT', subject: 'todoList')]
     public function edit(Request $request, TodoList $todoList): Response
     {
         $form = $this->createForm(
@@ -139,6 +147,7 @@ class TodoListController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'todoList_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('DELETE', subject: 'todoList')]
     public function delete(Request $request, TodoList $todoList): Response
     {
         if(!$this->todoListService->canBeDeleted($todoList)) {
@@ -183,7 +192,7 @@ class TodoListController extends AbstractController
     /**
      * Show action.
      *
-     * @param TodoList    $todoList    TodoList
+     * @param TodoList $todoList TodoList
      *
      * @return Response HTTP response
      */
@@ -193,6 +202,7 @@ class TodoListController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
     )]
+    #[IsGranted('VIEW', subject: 'todoList')]
     public function show(TodoList $todoList): Response
     {
         return $this->render(

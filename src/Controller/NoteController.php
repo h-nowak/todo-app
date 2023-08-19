@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
+use App\Entity\User;
 use App\Form\Type\NoteType;
 use App\Service\NoteServiceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,17 +51,19 @@ class NoteController extends AbstractController
     public function index(Request $request): Response
     {
         $statusCases = NoteStatus::cases();
+        /** @var User $author */
+        $author = $this->getUser();
 
         foreach($statusCases as $status) {
             $paginations[] = $this->noteService->getPaginatedListByStatus(
                 $request->query->getInt('page', 1),
                 $status,
+                $author,
             );
         }
 
         return $this->render('note/index.html.twig', ['paginations' => $paginations, 'statusCases' => $statusCases]);
     }
-
 
     /**
      * Create action.
@@ -102,6 +106,7 @@ class NoteController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'note_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('EDIT', subject: 'note')]
     public function edit(Request $request, Note $note): Response
     {
         $form = $this->createForm(
@@ -143,6 +148,7 @@ class NoteController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'note_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('DELETE', subject: 'note')]
     public function delete(Request $request, Note $note): Response
     {
         $form = $this->createForm(
@@ -188,6 +194,7 @@ class NoteController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
     )]
+    #[IsGranted('VIEW', subject: 'note')]
     public function show(Note $note): Response
     {
         return $this->render(

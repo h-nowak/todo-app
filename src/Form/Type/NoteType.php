@@ -9,6 +9,9 @@ use App\Entity\Category;
 use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
 use App\Entity\TodoList;
+use App\Entity\User;
+use App\Repository\TodoListRepository;
+use App\Service\TodoListService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -16,12 +19,39 @@ use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class NoteType.
  */
 class NoteType extends AbstractType
 {
+    /**
+     * Security.
+     *
+     * @var Security
+     */
+    private Security $security;
+
+    /**
+     * TodoList service.
+     *
+     * @var TodoListRepository
+     */
+    private TodoListRepository $todoListRepository;
+
+    /**
+     * Security.
+     *
+     * @param Security           $security           Security
+     * @param TodoListRepository $todoListRepository TodoListRepository
+     */
+    public function __construct(Security $security, TodoListRepository $todoListRepository)
+    {
+        $this->security = $security;
+        $this->todoListRepository = $todoListRepository;
+    }
+
     /**
      * Builds the form.
      *
@@ -35,6 +65,9 @@ class NoteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var User $user */
+        $user = $this->security->getUser();
+
         $builder->add(
             'content',
             TextType::class,
@@ -78,6 +111,7 @@ class NoteType extends AbstractType
                 'choice_label' => function ($todoList): string {
                     return $todoList->getTitle();
                 },
+                'choices' => $this->todoListRepository->queryByAuthor($user)->getQuery()->getResult(),
                 'label' => 'label.todo_list',
                 'placeholder' => 'label.none',
                 'required' => true,

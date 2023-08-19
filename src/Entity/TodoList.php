@@ -61,6 +61,15 @@ class TodoList
     private ?DateTimeImmutable $updatedAt = null;
 
     /**
+     * Author
+     *
+     * @var User|null
+     */
+    #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
+    #[Assert\Type(User::class)]
+    private ?User $author = null;
+
+    /**
      * Getter for id.
      *
      * @return int|null
@@ -128,5 +137,29 @@ class TodoList
     public function setUpdatedAt(?DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * Get author.
+     *
+     * @return User|null
+     */
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    /**
+     * Set author.
+     *
+     * @param User|null $author Author
+     *
+     * @return $this
+     */
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
+
+        return $this;
     }
 }

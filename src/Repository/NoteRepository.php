@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
 use App\Entity\TodoList;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -58,13 +59,32 @@ class NoteRepository extends ServiceEntityRepository
     }
 
     /**
-     * Query records by status.
+     * Query all records.
+     *
+     * @param User $author User
      *
      * @return QueryBuilder Query builder
      */
-    public function queryByStatus(NoteStatus $status): QueryBuilder
+    public function queryByUser(User $author): QueryBuilder
     {
-        return $this->queryAll()
+        $queryBuilder = $this->queryAll();
+
+        $queryBuilder->andWhere('todoList.author = :author')
+            ->setParameter('author', $author);
+
+        return $queryBuilder;
+    }
+
+    /**
+     * Query records by status.
+     *
+     * @param User $author User
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByStatus(NoteStatus $status, User $author): QueryBuilder
+    {
+        return $this->queryByUser($author)
             ->andWhere('note.status = :status')
             ->setParameter('status', $status);
     }
@@ -72,11 +92,13 @@ class NoteRepository extends ServiceEntityRepository
     /**
      * Query records by category.
      *
+     * @param User $author User
+     *
      * @return QueryBuilder Query builder
      */
-    public function queryByCategory(Category $category): QueryBuilder
+    public function queryByCategory(Category $category, User $author): QueryBuilder
     {
-        return $this->queryAll()
+        return $this->queryByUser($author)
             ->andWhere('note.category = :category')
             ->setParameter('category', $category);
     }
