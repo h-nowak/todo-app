@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Enum\CategoryStatus;
 use App\Entity\Category;
 use App\Form\Type\CategoryType;
 use App\Service\CategoryServiceInterface;

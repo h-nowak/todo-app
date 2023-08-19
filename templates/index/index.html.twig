@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.index'|trans }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.index'|trans }}</h1>
+    <img class="w-75 m-auto d-block mt-5" src="{{ asset('images/todolist.jpg') }}" alt="{{ 'img.todolist'|trans }}">
+
+{% endblock %}
