@@ -16,6 +16,10 @@
             <dd>{{ todoList.updatedAt|date("d.m.Y, H:i") }}</dd>
             <dt>{{ 'label.actions'|trans }}</dt>
             <dd>
+                <a href="{{ url('note_index', {'filters.todolist_id' : todoList.id}) }}" title="{{ 'action.see_notes_with_todolist'|trans }} {{ todoList.title }}">
+                    {{ 'action.see_notes_with_todolist'|trans }} {{ todoList.title }}
+                </a>
+                •
                 <a href="{{ url('todoList_edit', {id: todoList.id}) }}" title="{{ 'action.edit'|trans }}">
                     {{ 'action.edit'|trans }}
                 </a>

@@ -43,11 +43,13 @@ class NoteRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
+     * @param array<string, object> $filters Filters
+     *
      * @return QueryBuilder Query builder
      */
-    public function queryAll(): QueryBuilder
+    public function queryAll(array $filters): QueryBuilder
     {
-        return $this->getOrCreateQueryBuilder()
+        $queryBuilder = $this->getOrCreateQueryBuilder()
             ->select(
                 'partial note.{id, content, createdAt, updatedAt, status, priority}',
                 'partial category.{id, title}',
@@ -56,6 +58,8 @@ class NoteRepository extends ServiceEntityRepository
             ->join('note.category', 'category')
             ->join('note.todoList', 'todoList')
             ->orderBy('note.priority', 'DESC');
+
+        return $this->applyFiltersToList($queryBuilder, $filters);
     }
 
     /**
@@ -65,9 +69,9 @@ class NoteRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder Query builder
      */
-    public function queryByUser(User $author): QueryBuilder
+    public function queryByUser(User $author, array $filters = []): QueryBuilder
     {
-        $queryBuilder = $this->queryAll();
+        $queryBuilder = $this->queryAll($filters);
 
         $queryBuilder->andWhere('todoList.author = :author')
             ->setParameter('author', $author);
@@ -82,25 +86,11 @@ class NoteRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder Query builder
      */
-    public function queryByStatus(NoteStatus $status, User $author): QueryBuilder
+    public function queryByStatus(NoteStatus $status, User $author, array $filters = []): QueryBuilder
     {
-        return $this->queryByUser($author)
+        return $this->queryByUser($author, $filters)
             ->andWhere('note.status = :status')
             ->setParameter('status', $status);
-    }
-
-    /**
-     * Query records by category.
-     *
-     * @param User $author User
-     *
-     * @return QueryBuilder Query builder
-     */
-    public function queryByCategory(Category $category, User $author): QueryBuilder
-    {
-        return $this->queryByUser($author)
-            ->andWhere('note.category = :category')
-            ->setParameter('category', $category);
     }
 
     /**
@@ -124,17 +114,6 @@ class NoteRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    /**
-     * Query records by todo-list.
-     *
-     * @return QueryBuilder Query builder
-     */
-    public function queryByTodoList(TodoList $todoList): QueryBuilder
-    {
-        return $this->queryAll()
-            ->andWhere('note.todoList = :todoList')
-            ->setParameter('todoList', $todoList);
-    }
     /**
      * Count notes by todo-list.
      *
@@ -189,5 +168,28 @@ class NoteRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('note');
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder          $queryBuilder Query builder
+     * @param array<string, object> $filters      Filters array
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, array $filters = []): QueryBuilder
+    {
+        if (isset($filters['category']) && $filters['category'] instanceof Category) {
+            $queryBuilder->andWhere('category = :category')
+                ->setParameter('category', $filters['category']);
+        }
+
+        if (isset($filters['todolist']) && $filters['todolist'] instanceof TodoList) {
+            $queryBuilder->andWhere('todoList = :todolist')
+                ->setParameter('todolist', $filters['todolist']);
+        }
+
+        return $queryBuilder;
     }
 }

@@ -104,4 +104,18 @@ class TodoListService implements TodoListServiceInterface
             return false;
         }
     }
+
+    /**
+     * Find by id.
+     *
+     * @param int $id Category id
+     *
+     * @return TodoList|null Category entity
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?TodoList
+    {
+        return $this->todoListRepository->findOneById($id);
+    }
 }

@@ -22,7 +22,7 @@
                         <tr>
                             <th>{{ knp_pagination_sortable(pagination, 'label.content'|trans, 'note.content') }}</th>
                             <th>{{ knp_pagination_sortable(pagination, 'label.priority'|trans, 'note.priority') }}</th>
-                            <th>{{ knp_pagination_sortable(pagination, 'label.todo_list'|trans, 'note.todoList') }}</th>
+                            <th>{{ knp_pagination_sortable(pagination, 'label.todo_list'|trans, 'todoList.title') }}</th>
                             <th>{{ knp_pagination_sortable(pagination, 'label_category'|trans, 'category.title') }}</th>
                             <th>{{ 'label.actions'|trans }}</th>
                         </tr>
@@ -32,8 +32,16 @@
                             <tr>
                                 <td>{{ note.content }}</td>
                                 <td>{{ note.priority }}</td>
-                                <td>{{ note.todoList.title }}</td>
-                                <td>{{ note.category.title }}</td>
+                                <td>
+                                    <a href="{{ url('note_index', {'filters.todolist_id' : note.todoList.id}) }}" title="{{ note.todoList.title }}">
+                                        {{ note.todoList.title }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ url('note_index', {'filters.category_id' : note.category.id}) }}" title="{{ note.category.title }}">
+                                        {{ note.category.title }}
+                                    </a>
+                                </td>
                                 <td>
                                     <a href="{{ url('note_show', {id: note.id}) }}" title="{{ 'action.view'|trans }}">
                                         {{ 'action.view'|trans }}

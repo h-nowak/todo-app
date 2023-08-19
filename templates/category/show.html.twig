@@ -16,13 +16,18 @@
             <dd>{{ category.updatedAt|date("d.m.Y, H:i") }}</dd>
             <dt>{{ 'label.actions'|trans }}</dt>
             <dd>
+                <a href="{{ url('note_index', {'filters.category_id' : category.id}) }}" title="{{ 'action.see_notes_with_category'|trans }} {{ category.title }}">
+                    {{ 'action.see_notes_with_category'|trans }} {{ category.title }}
+                </a>
+                •
                 <a href="{{ url('category_edit', {id: category.id}) }}" title="{{ 'action.edit'|trans }}">
                     {{ 'action.edit'|trans }}
                 </a>
                 •
                 <a href="{{ url('category_delete', {id: category.id}) }}" title="{{ 'action.delete'|trans }}">
                     {{ 'action.delete'|trans }}
-                </a></dd>
+                </a>
+            </dd>
         </dl>
         <p>
             <a href="{{ url('category_index') }}" title="{{ 'action.back_to_list'|trans }}">

@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\TodoList;
 use App\Entity\User;
+use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -46,4 +47,15 @@ interface TodoListServiceInterface
      * @return bool Result
      */
     public function canBeDeleted(TodoList $todoList): bool;
+
+    /**
+     * Find by id.
+     *
+     * @param int $id Category id
+     *
+     * @return TodoList|null Category entity
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?TodoList;
 }

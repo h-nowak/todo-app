@@ -50,6 +50,7 @@ class NoteController extends AbstractController
     #[Route(name: 'note_index', methods: 'GET')]
     public function index(Request $request): Response
     {
+        $filters = $this->getFilters($request);
         $statusCases = NoteStatus::cases();
         /** @var User $author */
         $author = $this->getUser();
@@ -59,6 +60,7 @@ class NoteController extends AbstractController
                 $request->query->getInt('page', 1),
                 $status,
                 $author,
+                $filters,
             );
         }
 
@@ -201,5 +203,21 @@ class NoteController extends AbstractController
             'note/show.html.twig',
             ['note' => $note]
         );
+    }
+
+    /**
+     * Get filters from request.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return array<string, int> Array of filters
+     */
+    private function getFilters(Request $request): array
+    {
+        $filters = [];
+        $filters['category_id'] = $request->query->getInt('filters_category_id');
+        $filters['todolist_id'] = $request->query->getInt('filters_todolist_id');
+
+        return $filters;
     }
 }
