@@ -96,8 +96,12 @@ class CategoryService implements CategoryServiceInterface
             $result = $this->noteRepository->countByCategory($category);
 
             return !($result > 0);
-        } catch (NoResultException|NonUniqueResultException) {
+            // @codeCoverageIgnoreStart
+        }
+        catch (NoResultException|NonUniqueResultException) {
             return false;
+            // @codeCoverageIgnoreEnd
+
         }
     }
 

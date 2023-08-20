@@ -55,14 +55,15 @@ class NoteService implements NoteServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int   $page Page
+     * @param array $filters Filters
      *
-     * @return PaginationInterface<string, mixed> Paginated list
+     * @return PaginationInterface
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, array $filters = []): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->noteRepository->queryAll(),
+            $this->noteRepository->queryAll($filters),
             $page,
             NoteRepository::PAGINATOR_ITEMS_PER_PAGE
         );

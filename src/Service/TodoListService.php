@@ -100,17 +100,19 @@ class TodoListService implements TodoListServiceInterface
             $result = $this->noteRepository->countByTodoList($todoList);
 
             return !($result > 0);
+            // @codeCoverageIgnoreStart
         } catch (NoResultException|NonUniqueResultException) {
             return false;
+            // @codeCoverageIgnoreEnd
         }
     }
 
     /**
      * Find by id.
      *
-     * @param int $id Category id
+     * @param int $id TodoList id
      *
-     * @return TodoList|null Category entity
+     * @return TodoList|null TodoList entity
      *
      * @throws NonUniqueResultException
      */

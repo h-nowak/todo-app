@@ -110,16 +110,6 @@ class Note
     }
 
     /**
-     * Setter for id.
-     *
-     * @param int|null $id Id
-     */
-    public function setId(?int $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
      * Getter for content.
      *
      * @return string|null
