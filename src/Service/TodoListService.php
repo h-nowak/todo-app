@@ -34,13 +34,12 @@ class TodoListService implements TodoListServiceInterface
      */
     private NoteRepository $noteRepository;
 
-
     /**
      * Constructor.
      *
      * @param TodoListRepository $todoListRepository TodoListRepository
      * @param PaginatorInterface $paginator          PaginatorInterface
-     * @param NoteRepository      $noteRepository    NoteRepository
+     * @param NoteRepository     $noteRepository     NoteRepository
      */
     public function __construct(TodoListRepository $todoListRepository, PaginatorInterface $paginator, NoteRepository $noteRepository)
     {
@@ -65,7 +64,6 @@ class TodoListService implements TodoListServiceInterface
             TodoListRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
-
 
     /**
      * Save entity.

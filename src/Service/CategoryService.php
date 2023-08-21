@@ -97,11 +97,9 @@ class CategoryService implements CategoryServiceInterface
 
             return !($result > 0);
             // @codeCoverageIgnoreStart
-        }
-        catch (NoResultException|NonUniqueResultException) {
+        } catch (NoResultException|NonUniqueResultException) {
             return false;
             // @codeCoverageIgnoreEnd
-
         }
     }
 

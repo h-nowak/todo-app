@@ -41,7 +41,7 @@ class NoteVoter extends Voter
     /**
      * Security helper.
      *
-     * @var Security
+     * @var Security Security
      */
     private Security $security;
 

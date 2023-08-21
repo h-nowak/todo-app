@@ -7,7 +7,6 @@ namespace App\DataFixtures;
 
 use App\Entity\TodoList;
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
@@ -22,14 +21,14 @@ class TodoListFixtures extends AbstractBaseFixtures implements DependentFixtureI
     {
         $this->createMany(20, 'todoLists', function (int $i) {
             $todoList = new TodoList();
-            $todoList->setTitle(ucfirst($this->faker->unique()->word) . ' ' . $this->faker->unique()->word);
+            $todoList->setTitle(ucfirst($this->faker->unique()->word).' '.$this->faker->unique()->word);
             $todoList->setCreatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
             $todoList->setUpdatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
@@ -47,7 +46,7 @@ class TodoListFixtures extends AbstractBaseFixtures implements DependentFixtureI
     /**
      * Get dependencies.
      *
-     * @return string[]
+     * @return string[] of dependencies
      */
     public function getDependencies(): array
     {

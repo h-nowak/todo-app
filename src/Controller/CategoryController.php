@@ -1,4 +1,7 @@
 <?php
+/**
+ * Category controller.
+ */
 
 namespace App\Controller;
 
@@ -12,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * CategoryController class.
+ */
 #[Route('/categories')]
 class CategoryController extends AbstractController
 {
@@ -22,8 +28,6 @@ class CategoryController extends AbstractController
 
     /**
      * Translator.
-     *
-     * @var TranslatorInterface
      */
     private TranslatorInterface $translator;
 
@@ -142,7 +146,7 @@ class CategoryController extends AbstractController
     #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     public function delete(Request $request, Category $category): Response
     {
-        if(!$this->categoryService->canBeDeleted($category)) {
+        if (!$this->categoryService->canBeDeleted($category)) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans('message.category_contains_tasks')
@@ -184,7 +188,7 @@ class CategoryController extends AbstractController
     /**
      * Show action.
      *
-     * @param Category    $category    Category
+     * @param Category $category Category
      *
      * @return Response HTTP response
      */
@@ -198,7 +202,7 @@ class CategoryController extends AbstractController
     {
         return $this->render(
             'category/show.html.twig',
-            ['category' => $category]
+            ['category' => $category],
         );
     }
 }

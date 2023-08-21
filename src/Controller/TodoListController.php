@@ -1,4 +1,7 @@
 <?php
+/**
+ * TodoList controller.
+ */
 
 namespace App\Controller;
 
@@ -14,17 +17,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * TodoListController class.
+ */
 #[Route('/todo-lists')]
 class TodoListController extends AbstractController
 {
     /**
      * TodoList service.
+     *
+     * @var TodoListServiceInterface TodoList service
      */
     private TodoListServiceInterface $todoListService;
     /**
      * Translator.
      *
-     * @var TranslatorInterface
+     * @var TranslatorInterface Translator
      */
     private TranslatorInterface $translator;
 
@@ -150,7 +158,7 @@ class TodoListController extends AbstractController
     #[IsGranted('DELETE', subject: 'todoList')]
     public function delete(Request $request, TodoList $todoList): Response
     {
-        if(!$this->todoListService->canBeDeleted($todoList)) {
+        if (!$this->todoListService->canBeDeleted($todoList)) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans('message.todoList_contains_tasks')

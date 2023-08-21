@@ -1,4 +1,7 @@
 <?php
+/**
+ * Note repository.
+ */
 
 namespace App\Repository;
 
@@ -65,7 +68,8 @@ class NoteRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
-     * @param User $author User
+     * @param User  $author  User
+     * @param array $filters Filters
      *
      * @return QueryBuilder Query builder
      */
@@ -82,9 +86,11 @@ class NoteRepository extends ServiceEntityRepository
     /**
      * Query records by status.
      *
-     * @param User $author User
+     * @param NoteStatus $status  Status
+     * @param User       $author  User
+     * @param array      $filters Filters
      *
-     * @return QueryBuilder Query builder
+     * @return QueryBuilder QueryBuilder
      */
     public function queryByStatus(NoteStatus $status, User $author, array $filters = []): QueryBuilder
     {
@@ -156,7 +162,6 @@ class NoteRepository extends ServiceEntityRepository
         $this->_em->remove($note);
         $this->_em->flush();
     }
-
 
     /**
      * Get or create new query builder.

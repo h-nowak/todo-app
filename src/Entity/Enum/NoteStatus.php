@@ -11,9 +11,8 @@ namespace App\Entity\Enum;
 enum NoteStatus: string
 {
     case STATUS_TODO = 'STATUS_TODO';
-    case STATUS_IN_PROGRESS= 'STATUS_IN_PROGRESS';
-    case STATUS_DONE= 'STATUS_DONE';
-
+    case STATUS_IN_PROGRESS = 'STATUS_IN_PROGRESS';
+    case STATUS_DONE = 'STATUS_DONE';
 
     /**
      * Get the status label.

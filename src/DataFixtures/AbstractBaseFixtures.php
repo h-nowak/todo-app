@@ -9,8 +9,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
-use InvalidArgumentException;
-use LogicException;
 
 /**
  * Class AbstractBaseFixtures.
@@ -19,18 +17,22 @@ abstract class AbstractBaseFixtures extends Fixture
 {
     /**
      * Faker.
+     *
+     * @var Generator|null Faker
      */
     protected ?Generator $faker = null;
 
     /**
      * Persistence object manager.
+     *
+     * @var ObjectManager|null Persistence object manager
      */
     protected ?ObjectManager $manager = null;
 
     /**
      * Object reference index.
      *
-     * @var array<string, array<int, array-key>>
+     * @var array<string, array<int, array-key>> Array
      */
     private array $referencesIndex = [];
 
@@ -74,7 +76,7 @@ abstract class AbstractBaseFixtures extends Fixture
             $entity = $factory($i);
 
             if (null === $entity) {
-                throw new LogicException('Did you forget to return the entity object from your callback to BaseFixture::createMany()?');
+                throw new \LogicException('Did you forget to return the entity object from your callback to BaseFixture::createMany()?');
             }
 
             $this->manager->persist($entity);
@@ -104,7 +106,7 @@ abstract class AbstractBaseFixtures extends Fixture
         }
 
         if (empty($this->referencesIndex[$groupName])) {
-            throw new InvalidArgumentException(sprintf('Did not find any references saved with the group name "%s"', $groupName));
+            throw new \InvalidArgumentException(sprintf('Did not find any references saved with the group name "%s"', $groupName));
         }
 
         $randomReferenceKey = (string) $this->faker->randomElement($this->referencesIndex[$groupName]);
@@ -119,8 +121,6 @@ abstract class AbstractBaseFixtures extends Fixture
      * @param int    $count     Number of references
      *
      * @return object[] Result
-     *
-     * @psalm-return list<object>
      */
     protected function getRandomReferences(string $groupName, int $count): array
     {

@@ -7,7 +7,6 @@ namespace App\Entity;
 
 use App\Entity\Enum\NoteStatus;
 use App\Repository\NoteRepository;
-use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -23,7 +22,7 @@ class Note
     /**
      * Id.
      *
-     * @var int|null
+     * @var int|null Id
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,7 +32,7 @@ class Note
     /**
      * Note content.
      *
-     * @var string|null
+     * @var string|null Content
      */
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
@@ -43,7 +42,7 @@ class Note
     /**
      * Priority.
      *
-     * @var int|null
+     * @var int|null Priority
      */
     #[ORM\Column(type: 'integer')]
     #[Assert\Type('integer')]
@@ -54,27 +53,27 @@ class Note
     /**
      * Created at.
      *
-     * @var DateTimeImmutable|null
+     * @var \DateTimeImmutable|null Created at
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\Type(DateTimeImmutable::class)]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
      *
-     * @var DateTimeImmutable|null
+     * @var \DateTimeImmutable|null Updated at
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\Type(DateTimeImmutable::class)]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * Status.
      *
-     * @var NoteStatus|null
+     * @var NoteStatus|null Status
      */
     #[ORM\Column(length: 20)]
     private NoteStatus|null $status = null;
@@ -82,7 +81,7 @@ class Note
     /**
      * Category.
      *
-     * @var Category|null
+     * @var Category|null Category
      */
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -92,7 +91,7 @@ class Note
     /**
      * Todo list.
      *
-     * @var TodoList|null
+     * @var TodoList|null TodoList
      */
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -102,7 +101,7 @@ class Note
     /**
      * Getter for id.
      *
-     * @return int|null
+     * @return int|null Id
      */
     public function getId(): ?int
     {
@@ -112,7 +111,7 @@ class Note
     /**
      * Getter for content.
      *
-     * @return string|null
+     * @return string|null Content
      */
     public function getContent(): ?string
     {
@@ -132,7 +131,7 @@ class Note
     /**
      * Getter for priority.
      *
-     * @return int|null
+     * @return int|null Priority
      */
     public function getPriority(): ?int
     {
@@ -152,9 +151,9 @@ class Note
     /**
      * Getter for created at.
      *
-     * @return DateTimeImmutable|null
+     * @return \DateTimeImmutable|null Created at
      */
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -162,9 +161,9 @@ class Note
     /**
      * Setter for created at.
      *
-     * @param DateTimeImmutable|null $createdAt Created at
+     * @param \DateTimeImmutable|null $createdAt Created at
      */
-    public function setCreatedAt(?DateTimeImmutable $createdAt): void
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -172,9 +171,9 @@ class Note
     /**
      * Getter for updated at.
      *
-     * @return DateTimeImmutable|null
+     * @return \DateTimeImmutable|null Updated at
      */
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -182,9 +181,9 @@ class Note
     /**
      * Setter for updated at.
      *
-     * @param DateTimeImmutable|null $updatedAt Updated at
+     * @param \DateTimeImmutable|null $updatedAt Updated at
      */
-    public function setUpdatedAt(?DateTimeImmutable $updatedAt): void
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
@@ -192,7 +191,7 @@ class Note
     /**
      * Getter for status.
      *
-     * @return NoteStatus|null
+     * @return NoteStatus|null Status
      */
     public function getStatus(): ?NoteStatus
     {
@@ -209,27 +208,43 @@ class Note
         $this->status = $status;
     }
 
+    /**
+     * Getter for category.
+     *
+     * @return Category|null Category
+     */
     public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): static
+    /**
+     * Setter for category.
+     *
+     * @param Category|null $category Category
+     */
+    public function setCategory(?Category $category): void
     {
         $this->category = $category;
-
-        return $this;
     }
 
+    /**
+     * Getter for TodoList.
+     *
+     * @return TodoList|null Todolist
+     */
     public function getTodoList(): ?TodoList
     {
         return $this->todoList;
     }
 
-    public function setTodoList(?TodoList $todoList): static
+    /**
+     * Setter for TodoList.
+     *
+     * @param TodoList|null $todoList TodoList
+     */
+    public function setTodoList(?TodoList $todoList): void
     {
         $this->todoList = $todoList;
-
-        return $this;
     }
 }

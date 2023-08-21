@@ -11,7 +11,6 @@ use App\Entity\Note;
 use App\Entity\TodoList;
 use App\Entity\User;
 use App\Repository\TodoListRepository;
-use App\Service\TodoListService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -28,15 +27,11 @@ class NoteType extends AbstractType
 {
     /**
      * Security.
-     *
-     * @var Security
      */
     private Security $security;
 
     /**
      * TodoList service.
-     *
-     * @var TodoListRepository
      */
     private TodoListRepository $todoListRepository;
 
@@ -75,22 +70,28 @@ class NoteType extends AbstractType
                 'label' => 'label.title',
                 'required' => true,
                 'attr' => ['max_length' => 255],
-            ]);
+            ]
+        );
         $builder->add(
             'status',
             EnumType::class,
             [
                 'label' => 'label.status',
                 'required' => true,
-                'class' => NoteStatus::class
-            ]);
-        $builder->add('priority', RangeType::class, [
-            'label' => 'label.priority',
-            'attr' => [
-                'min' => 1,
-                'max' => 5
-            ],
-        ]);
+                'class' => NoteStatus::class,
+            ]
+        );
+        $builder->add(
+            'priority',
+            RangeType::class,
+            [
+                'label' => 'label.priority',
+                'attr' => [
+                    'min' => 1,
+                    'max' => 5,
+                ],
+            ]
+        );
         $builder->add(
             'category',
             EntityType::class,

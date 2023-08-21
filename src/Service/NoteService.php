@@ -29,20 +29,22 @@ class NoteService implements NoteServiceInterface
     private PaginatorInterface $paginator;
 
     /**
-     * CategoryServiceInterface
+     * CategoryServiceInterface.
      */
     private CategoryServiceInterface $categoryService;
 
     /**
-     * TodoListServiceInterface
+     * TodoListServiceInterface.
      */
     private TodoListServiceInterface $todoListService;
 
     /**
      * Constructor.
      *
-     * @param NoteRepository     $noteRepository Note repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param NoteRepository           $noteRepository  Note repository
+     * @param PaginatorInterface       $paginator       Paginator
+     * @param CategoryServiceInterface $categoryService Category service
+     * @param TodoListServiceInterface $todoListService TodoList service
      */
     public function __construct(NoteRepository $noteRepository, PaginatorInterface $paginator, CategoryServiceInterface $categoryService, TodoListServiceInterface $todoListService)
     {
@@ -55,10 +57,10 @@ class NoteService implements NoteServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int   $page Page
+     * @param int   $page    Page
      * @param array $filters Filters
      *
-     * @return PaginationInterface
+     * @return PaginationInterface Pagination
      */
     public function getPaginatedList(int $page, array $filters = []): PaginationInterface
     {
@@ -72,11 +74,14 @@ class NoteService implements NoteServiceInterface
     /**
      * Get paginated list by status.
      *
-     * @param int $page Page number
-     * @param User $author Author
+     * @param int        $page    Page number
+     * @param NoteStatus $status  Status
+     * @param User       $author  Author
+     * @param array      $filters Filters
      *
-     * @return PaginationInterface<string, mixed> Paginated list
-     * @throws NonUniqueResultException
+     * @return PaginationInterface Paginated list
+     *
+     * @throws NonUniqueResultException Exception
      */
     public function getPaginatedListByStatus(int $page, NoteStatus $status, User $author, array $filters = []): PaginationInterface
     {
@@ -112,11 +117,11 @@ class NoteService implements NoteServiceInterface
     /**
      * Prepare filters for the tasks list.
      *
-     * @param array<string, int> $filters Raw filters from request
+     * @param array $filters Raw filters from request
      *
-     * @return array<string, object> Result array of filters
+     * @return array Result array of filters
      *
-     * @throws NonUniqueResultException
+     * @throws NonUniqueResultException Exception
      */
     private function prepareFilters(array $filters): array
     {

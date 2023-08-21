@@ -69,7 +69,6 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $password = $userPasswordHasher->hashPassword(
                 $user,
                 $form->get('password')->getData()
@@ -77,7 +76,6 @@ class UserController extends AbstractController
 
             $this->userService->upgradePassword($user, $password);
             $this->userService->save($user);
-
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.edited_successfully')

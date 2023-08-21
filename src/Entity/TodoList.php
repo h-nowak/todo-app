@@ -2,10 +2,10 @@
 /**
  * TodoList entity.
  */
+
 namespace App\Entity;
 
 use App\Repository\TodoListRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -22,7 +22,7 @@ class TodoList
     /**
      * Id.
      *
-     * @var int|null
+     * @var int|null Id
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -32,7 +32,7 @@ class TodoList
     /**
      * Title.
      *
-     * @var string|null
+     * @var string|null Title
      */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Type('string')]
@@ -43,27 +43,27 @@ class TodoList
     /**
      * Created at.
      *
-     * @var DateTimeImmutable|null
+     * @var \DateTimeImmutable|null Created at
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\Type(DateTimeImmutable::class)]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
      *
-     * @var DateTimeImmutable|null
+     * @var \DateTimeImmutable|null Updated at
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\Type(DateTimeImmutable::class)]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
-     * Author
+     * Author.
      *
-     * @var User|null
+     * @var User|null User
      */
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
     #[Assert\Type(User::class)]
@@ -72,7 +72,7 @@ class TodoList
     /**
      * Getter for id.
      *
-     * @return int|null
+     * @return int|null Id
      */
     public function getId(): ?int
     {
@@ -82,7 +82,7 @@ class TodoList
     /**
      * Getter for title.
      *
-     * @return string|null
+     * @return string|null Title
      */
     public function getTitle(): ?string
     {
@@ -92,7 +92,7 @@ class TodoList
     /**
      * Setter for title.
      *
-     * @param string $title
+     * @param string $title Title
      */
     public function setTitle(string $title): void
     {
@@ -102,9 +102,9 @@ class TodoList
     /**
      * Getter for created at.
      *
-     * @return DateTimeImmutable|null
+     * @return \DateTimeImmutable|null Created at
      */
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -112,9 +112,9 @@ class TodoList
     /**
      * Setter for created at.
      *
-     * @param DateTimeImmutable|null $createdAt Created at
+     * @param \DateTimeImmutable|null $createdAt Created at
      */
-    public function setCreatedAt(?DateTimeImmutable $createdAt): void
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -122,9 +122,9 @@ class TodoList
     /**
      * Getter for updated at.
      *
-     * @return DateTimeImmutable|null
+     * @return \DateTimeImmutable|null Updated at
      */
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -132,9 +132,9 @@ class TodoList
     /**
      * Setter for updated at.
      *
-     * @param DateTimeImmutable|null $updatedAt Updated at
+     * @param \DateTimeImmutable|null $updatedAt Updated at
      */
-    public function setUpdatedAt(?DateTimeImmutable $updatedAt): void
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
@@ -142,7 +142,7 @@ class TodoList
     /**
      * Get author.
      *
-     * @return User|null
+     * @return User|null User
      */
     public function getAuthor(): ?User
     {
@@ -153,13 +153,9 @@ class TodoList
      * Set author.
      *
      * @param User|null $author Author
-     *
-     * @return $this
      */
-    public function setAuthor(?User $author): static
+    public function setAuthor(?User $author): void
     {
         $this->author = $author;
-
-        return $this;
     }
 }

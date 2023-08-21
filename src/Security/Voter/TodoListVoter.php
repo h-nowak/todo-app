@@ -41,7 +41,7 @@ class TodoListVoter extends Voter
     /**
      * Security helper.
      *
-     * @var Security
+     * @var Security Security
      */
     private Security $security;
 
@@ -84,7 +84,6 @@ class TodoListVoter extends Voter
         /** @var User $user */
         $user = $token->getUser();
         if (!$user instanceof UserInterface) {
-
             return false;
         }
 
@@ -117,7 +116,7 @@ class TodoListVoter extends Voter
      * Checks if user can view todoList.
      *
      * @param TodoList $todoList TodoList entity
-     * @param User $user User
+     * @param User     $user     User
      *
      * @return bool Result
      */
@@ -130,7 +129,7 @@ class TodoListVoter extends Voter
      * Checks if user can delete todoList.
      *
      * @param TodoList $todoList TodoList entity
-     * @param User $user User
+     * @param User     $user     User
      *
      * @return bool Result
      */

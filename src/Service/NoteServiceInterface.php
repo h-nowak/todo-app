@@ -8,7 +8,6 @@ namespace App\Service;
 use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
 use App\Entity\User;
-use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -28,13 +27,15 @@ interface NoteServiceInterface
     /**
      * Get paginated list by status.
      *
-     * @param int $page Page number
-     * @param User $author Author
+     * @param int        $page    Page number
+     * @param NoteStatus $status  Status
+     * @param User       $author  Author
+     * @param array      $filters Filters
      *
-     * @return PaginationInterface<string, mixed> Paginated list
-     * @throws NonUniqueResultException
+     * @return PaginationInterface Pagination
      */
     public function getPaginatedListByStatus(int $page, NoteStatus $status, User $author, array $filters = []): PaginationInterface;
+
     /**
      * Save entity.
      *

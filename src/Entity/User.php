@@ -23,7 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Primary key.
      *
-     * @var int|null
+     * @var int|null Id
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Email.
      *
-     * @var string|null
+     * @var string|null Email
      */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank]
@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Roles.
      *
-     * @var array<int, string>
+     * @var array<int, string> Roles
      */
     #[ORM\Column(type: 'json')]
     private array $roles = [];
@@ -51,7 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Password.
      *
-     * @var string|null
+     * @var string|null Password
      */
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
@@ -162,6 +162,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
      * @see UserInterface
+     *
+     * @return string|null User
      */
     public function getSalt(): ?string
     {

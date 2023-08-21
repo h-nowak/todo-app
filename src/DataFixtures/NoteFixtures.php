@@ -9,7 +9,6 @@ use App\Entity\Category;
 use App\Entity\Enum\NoteStatus;
 use App\Entity\Note;
 use App\Entity\TodoList;
-use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
@@ -20,7 +19,7 @@ class NoteFixtures extends AbstractBaseFixtures implements DependentFixtureInter
     /**
      * Possible status.
      *
-     * @var array $possibleStatus Possible status
+     * @var array Possible status
      */
     private array $possibleStatus = [
         NoteStatus::STATUS_TODO,
@@ -40,13 +39,13 @@ class NoteFixtures extends AbstractBaseFixtures implements DependentFixtureInter
         $this->createMany(100, 'notes', function (int $i) {
             $note = new Note();
             $note->setContent($this->faker->sentences(1, true));
-            $note->setPriority($this->faker->numberBetween(1,5));
-            $note->setStatus($this->possibleStatus[$this->faker->numberBetween(0,2)]);
+            $note->setPriority($this->faker->numberBetween(1, 5));
+            $note->setStatus($this->possibleStatus[$this->faker->numberBetween(0, 2)]);
             $note->setCreatedAt(
-                DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-100 days', '-1 days'))
+                \DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-100 days', '-1 days'))
             );
             $note->setUpdatedAt(
-                DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-100 days', '-1 days'))
+                \DateTimeImmutable::createFromMutable($this->faker->dateTimeBetween('-100 days', '-1 days'))
             );
 
             /** @var Category $category */

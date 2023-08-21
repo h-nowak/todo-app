@@ -1,4 +1,7 @@
 <?php
+/**
+ * Note controller.
+ */
 
 namespace App\Controller;
 
@@ -15,6 +18,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * NoteController class.
+ */
 #[Route('/notes')]
 class NoteController extends AbstractController
 {
@@ -55,7 +61,7 @@ class NoteController extends AbstractController
         /** @var User $author */
         $author = $this->getUser();
 
-        foreach($statusCases as $status) {
+        foreach ($statusCases as $status) {
             $paginations[] = $this->noteService->getPaginatedListByStatus(
                 $request->query->getInt('page', 1),
                 $status,
@@ -64,7 +70,13 @@ class NoteController extends AbstractController
             );
         }
 
-        return $this->render('note/index.html.twig', ['paginations' => $paginations, 'statusCases' => $statusCases]);
+        return $this->render(
+            'note/index.html.twig',
+            [
+                'paginations' => $paginations,
+                'statusCases' => $statusCases,
+            ]
+        );
     }
 
     /**
@@ -74,7 +86,7 @@ class NoteController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'note_create', methods: 'GET|POST', )]
+    #[Route('/create', name: 'note_create', methods: 'GET|POST')]
     public function create(Request $request): Response
     {
         $note = new Note();
@@ -96,7 +108,7 @@ class NoteController extends AbstractController
             return $this->redirectToRoute('note_index');
         }
 
-        return $this->render('note/create.html.twig',  ['form' => $form->createView()]);
+        return $this->render('note/create.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -182,11 +194,11 @@ class NoteController extends AbstractController
             ]
         );
     }
-    
+
     /**
      * Show action.
      *
-     * @param Note    $note    Note
+     * @param Note $note Note
      *
      * @return Response HTTP response
      */
